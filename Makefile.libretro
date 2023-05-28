@@ -208,6 +208,30 @@ else
 	PLATCFLAGS += -miphoneos-version-min=5.0
 endif
 
+# tvOS
+else ifeq ($(platform), tvos-arm64)
+	ifeq ($(IOSSDK),)
+		IOSSDK := $(shell xcodebuild -version -sdk appletvos Path)
+	endif
+	TARGET := $(TARGET_NAME)_libretro_tvos.dylib
+	DEFINES += -DIOS
+	GLES = 1
+
+	PLATCFLAGS += -DHAVE_POSIX_MEMALIGN
+	PLATCFLAGS += -DIOS -marm
+	CPUFLAGS += -D__arm__ -D__NEON_OPT
+
+	LDFLAGS += -dynamiclib
+	HAVE_NEON=1
+
+	fpic = -fPIC
+	GL_LIB := -framework OpenGLES
+
+	CC_AS = perl ./tools/gas-preprocessor.pl $(CC)
+	CC = clang -arch arm64 -isysroot $(IOSSDK)
+	CXX = clang++ -arch arm64 -isysroot $(IOSSDK)
+	CPUFLAGS += -marm
+
 # Theos iOS
 else ifneq (,$(findstring theos_ios,$(platform)))
 	DEPLOYMENT_IOSVERSION = 5.0
