@@ -218,7 +218,7 @@ else ifeq ($(platform), tvos-arm64)
 	GLES = 1
 
 	PLATCFLAGS += -DHAVE_POSIX_MEMALIGN
-	PLATCFLAGS += -DIOS -marm
+	PLATCFLAGS += -DIOS
 	CPUFLAGS += -D__arm__ -D__NEON_OPT
 
 	LDFLAGS += -dynamiclib
@@ -230,7 +230,6 @@ else ifeq ($(platform), tvos-arm64)
 	CC_AS = perl ./tools/gas-preprocessor.pl $(CC)
 	CC = clang -arch arm64 -isysroot $(IOSSDK)
 	CXX = clang++ -arch arm64 -isysroot $(IOSSDK)
-	CPUFLAGS += -marm
 
 # Theos iOS
 else ifneq (,$(findstring theos_ios,$(platform)))
