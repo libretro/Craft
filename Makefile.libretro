@@ -177,7 +177,7 @@ else ifneq (,$(findstring ios,$(platform)))
 	GLES = 1
 
 	PLATCFLAGS += -DHAVE_POSIX_MEMALIGN
-	PLATCFLAGS += -DIOS -marm
+	PLATCFLAGS += -DIOS
 	CPUFLAGS += -D__arm__ -D__NEON_OPT
 	
 	LDFLAGS += -dynamiclib
@@ -190,11 +190,11 @@ else ifneq (,$(findstring ios,$(platform)))
 	ifeq ($(platform),ios-arm64)
 		CC = clang -arch arm64 -isysroot $(IOSSDK)
 		CXX = clang++ -arch arm64 -isysroot $(IOSSDK)
-		CPUFLAGS += -marm
 	else
 		CC = clang -arch armv7 -isysroot $(IOSSDK)
 		CXX = clang++ -arch armv7 -isysroot $(IOSSDK)
 		CPUFLAGS += -marm -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=softfp
+		PLATCFLAGS += -marm
 	endif
 ifeq ($(platform),$(filter $(platform),ios9 ios-arm64))
 	CC         += -miphoneos-version-min=8.0
