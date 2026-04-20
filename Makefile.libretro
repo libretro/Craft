@@ -431,6 +431,13 @@ else ifneq (,$(findstring win,$(platform)))
 
 endif
 
+# webOS
+ifneq (,$(or $(findstring webos,$(CROSS_COMPILE)),$(findstring starfish,$(CROSS_COMPILE))))
+	HAVE_NEON = 1
+	GLES = 1
+	GL_LIB := -lGLESv2
+endif
+
 include Makefile.common
 
 ifeq ($(HAVE_NEON), 1)
