@@ -1,6 +1,9 @@
 #if defined(__LIBRETRO__)
 #include <retro_miscellaneous.h>
 #include <net/net_compat.h>
+#ifdef _WIN32
+#define close closesocket
+#endif
 #else
 #ifdef _WIN32
     #include <winsock2.h>
